@@ -91,8 +91,7 @@ const BoardUser = () => {
                         <Card.Body>
                         <blockquote className="blockquote mb-0">
                           <p>
-                            {' '}
-                            {item.description}{' '}
+                            {item.description}
                           </p>
                           <footer className="blockquote-footer">
                             Published on:{' '}

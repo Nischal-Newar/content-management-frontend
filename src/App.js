@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import AuthService from "./services/auth.service";
-
 import Login from "./components/Login";
 import Register from "./components/Signup";
 import Home from "./components/Home";
@@ -16,7 +14,6 @@ const App = () => {
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
-
     if (user) {
       setCurrentUser(user);
     }
@@ -78,7 +75,11 @@ const App = () => {
           <Route exact path={["/", "/home"]} component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route path="/user" component={User} />
+          {
+            currentUser && 
+            <Route path="/user" component={User}/>
+          }
+          <Redirect to="/"/>
         </Switch>
       </div>
     </div>
