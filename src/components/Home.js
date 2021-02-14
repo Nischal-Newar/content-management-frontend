@@ -9,7 +9,12 @@ const Home = () => {
   useEffect(() => {
     UserService.getPublicContent().then(
       (response) => {
-        setContent(response.data)
+        var unsorted = [].concat(...response.data.map(item => item.post))
+        const sorted = unsorted.sort((a,b) => {
+          return -1*a.time.localeCompare(b.time)
+        }) 
+        console.log(sorted)
+        setContent(sorted)
       }
     ).catch(() => {
       setContent("")
@@ -20,36 +25,35 @@ const Home = () => {
     <div className="container">
       <Card bg="info">
             <Card.Header as="h1" 
-                style={{'text-align': 'center'}} 
                 bg="dark"
             >
               Post
             </Card.Header>
             {
               (content !== '')?
-                content.map((item) => item.post.map((content) => (
-                  <Card key = {content.title} className="bg-dark text-white">
-                    <Card.Title>{content.title}</Card.Title>
+                content.map((item) => (
+                  <Card key = {item.title} className="bg-dark text-white">
+                    <Card.Title>{item.title}</Card.Title>
                     <Card.Body>
                       <blockquote className="blockquote mb-0">
                         <p>
                           {' '}
-                          {content.description}{' '}
+                          {item.description}{' '}
                         </p>
                         <footer className="blockquote-footer">
                           Published by:{' '}
-                          <cite title={content.name}>
-                            {content.name}
+                          <cite title={item.name}>
+                            {item.name}
                           </cite>
                           {' '}On:{' '}
-                          <cite title={content.time}>
-                              <Moment format="YYYY-MM-DD HH:mm" local>{content.time}</Moment>
+                          <cite title={item.time}>
+                              <Moment format="YYYY-MM-DD HH:mm" local>{item.time}</Moment>
                           </cite>
                         </footer>
                       </blockquote>
                     </Card.Body>
                   </Card>
-                ))):null
+                )):null
             }
         </Card>
     </div>

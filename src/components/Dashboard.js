@@ -12,7 +12,10 @@ const BoardUser = () => {
   useEffect(() => {
     UserService.getUserPost().then(
       (response) => {
-        setContent(response.data[0].post);
+        const sorted = response.data[0].post.sort((a,b) => {
+          return -1*a.time.localeCompare(b.time)
+        })
+        setContent(sorted);
       }
     ).catch(() => {
       setContent([{
@@ -76,7 +79,6 @@ const BoardUser = () => {
         </Card>
         <Card bg="info">
             <Card.Header as="h1" 
-                style={{'text-align': 'center'}} 
                 bg="dark"
             >
               Your Posts
